@@ -1,0 +1,83 @@
+name: Around Me CI  # Name of the GitHub Actions workflow
+
+on:
+  # Triggers on pushes to main and any feature branch
+  push:
+    branches: [ master, develop, feature/*, hotfix/* ]
+
+  # Triggers on pull requests to the main branch
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  build:  # This defines the build job
+
+    runs-on: ubuntu-latest  # Runs the job on the latest version of Ubuntu
+
+    steps:
+      # Step to check out the repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step to set up JDK 17
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin  # Newer distribution for Java
+          java-version: '17'  # Using Java version 17
+
+      # Grant execute permission for gradlew (if applicable)
+      # - name: Grant execute permission for gradlew
+      #   run: chmod +x gradlew  # Only needed if you have gradlew in your project
+
+      # ==================== FLUTTER INSTALLATION OPTIONS ====================
+
+      # OPTION 1: Manual Flutter installation with caching (commented for portfolio/future use)
+      # - name: Cache Flutter
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: ~/.flutter
+      #     key: ${{ runner.os }}-flutter-sdk-${{ hashFiles('**/pubspec.yaml') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-flutter-sdk-
+      #
+      # - name: Install Flutter
+      #   run: |
+      #     if [ ! -d "$HOME/.flutter" ]; then
+      #       git clone https://github.com/flutter/flutter.git -b stable "$HOME/.flutter"
+      #     fi
+      #     echo "$HOME/.flutter/bin" >> $GITHUB_PATH  # Add Flutter to PATH
+
+      # OPTION 2: Using official Flutter action (ACTIVE - faster and more reliable)
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true  # Automatically caches Flutter SDK and pub dependencies
+
+      # =====================================================================
+
+      # Step to ensure Flutter is usable
+      - name: Run Flutter Doctor
+        run: flutter doctor  # Verify that Flutter is set up correctly
+
+      # Step to get dependencies
+      - name: Get dependencies
+        run: flutter pub get  # Runs to get Flutter dependencies defined in pubspec.yaml
+
+      # Step to generate code with build_runner (for Drift, Freezed, etc.)
+      - name: Generate code
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      # Step to analyze the Dart code for potential issues
+      - name: Analyze code
+        run: flutter analyze  # Runs Flutter analysis on the code base
+
+      # Step to execute tests in the Flutter application
+      - name: Run tests
+        run: flutter test  # Runs the test suite
+
+      # Optional step to build the APK for the Flutter app
+      # Uncomment to build APK later
+      # - name: Build APK (optional)
+      #   run: flutter build apk --release  # Generates an APK file in release mode
