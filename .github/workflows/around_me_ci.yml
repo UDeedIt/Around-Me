@@ -66,8 +66,8 @@ jobs:
         run: flutter pub get  # Runs to get Flutter dependencies defined in pubspec.yaml
 
       # Step to generate code with build_runner (for Drift, Freezed, etc.)
-      - name: Generate code
-        run: dart run build_runner build --delete-conflicting-outputs
+#      - name: Generate code
+#        run: dart run build_runner build --delete-conflicting-outputs
 
       # Step to analyze the Dart code for potential issues
       - name: Analyze code
