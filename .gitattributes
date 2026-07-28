@@ -1,0 +1,10 @@
+# Treat Dart as the primary language
+*.dart linguist-language=Dart
+
+# De-emphasize platform-specific runner code
+android/** linguist-vendored
+ios/** linguist-vendored
+macos/** linguist-vendored
+linux/** linguist-vendored
+windows/** linguist-vendored
+web/** linguist-vendored
