@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../core/constants/app_strings.dart';
+import '../../l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,8 +14,13 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Around Me')),
+      appBar: AppBar(
+          title: Text(l10n?.homeTitle ?? AppStrings.homeTitleFallback)
+      ),
+      // body with grid as before...
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: GridView.builder(
