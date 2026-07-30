@@ -44,3 +44,7 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 .metadata
+
+# Generated localization files
+lib/l10n/app_localizations.dart
+lib/l10n/app_localizations_*.dart
