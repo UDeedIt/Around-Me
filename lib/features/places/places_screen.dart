@@ -20,7 +20,7 @@ class PlacesScreen extends StatelessWidget {
       appBar: AppBar(title: Text(l10nStrings.homeTitle)),
       body: ListView.separated(
         itemCount: mockPlaces.length,
-        separatorBuilder: (_, __) => const Divider(height: 1),
+        separatorBuilder: (_, index) => const Divider(height: 1),
         itemBuilder: (context, index) {
           final place = mockPlaces[index];
           return ListTile(
