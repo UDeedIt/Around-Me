@@ -1,0 +1,15 @@
+{
+  "@@locale": "de",
+  "appTitle": "Around Me",
+  "splashTitle": "Around Me",
+  "homeTitle": "Around Me",
+  "placesTitle": "{category} in meiner Nähe",
+  "@placesTitle": {
+    "description": "Titel für die Liste der Orte",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  }
+}
