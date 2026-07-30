@@ -1,0 +1,15 @@
+{
+  "@@locale": "ru",
+  "appTitle": "Around Me",
+  "splashTitle": "Around Me",
+  "homeTitle": "Around Me",
+  "placesTitle": "{category} рядом",
+  "@placesTitle": {
+    "description": "Заголовок экрана списка мест",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  }
+}
