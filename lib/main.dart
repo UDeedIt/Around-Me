@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/constants/app_strings.dart';
+import 'domain/models/place_category.dart';
 import 'l10n/app_localizations.dart';
 import 'features/splash/splash_screen.dart';
 import 'features/home/home_screen.dart';
@@ -37,10 +38,14 @@ class AroundMeApp extends StatelessWidget {
         '/splash': (_) => const SplashScreen(),
         '/home': (_) => const HomeScreen(),
         '/places': (context) {
-          final args =
-              ModalRoute.of(context)!.settings.arguments as String? ?? '';
-          return PlacesScreen(categoryName: args);
+          final args = ModalRoute.of(context)!.settings.arguments as PlaceCategory;
+          return PlacesScreen(category: args, categoryName: '',);
         },
+        // '/places': (context) {
+        //   final args =
+        //       ModalRoute.of(context)!.settings.arguments as String? ?? '';
+        //   return PlacesScreen(categoryName: args);
+        // },
       },
       // Localization setup.
       localizationsDelegates: const [
