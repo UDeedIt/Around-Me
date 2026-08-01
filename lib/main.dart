@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 
+import 'core/config/app_config.dart';
 import 'core/constants/app_strings.dart';
 import 'domain/models/place_category.dart';
 import 'l10n/app_localizations.dart';
@@ -26,40 +28,44 @@ class AroundMeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // Use localized app title if available, otherwise fall back.
-      onGenerateTitle: (context) => AppLocalizations.of(context)?.appTitle ?? AppStrings.appTitleFallback,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
-        useMaterial3: true,
-      ),
-      initialRoute: '/splash',
-      routes: {
-        '/splash': (_) => const SplashScreen(),
-        '/home': (_) => const HomeScreen(),
-        '/places': (context) {
-          final args = ModalRoute.of(context)!.settings.arguments as PlaceCategory;
-          return PlacesScreen(category: args, categoryName: '',);
+    return MultiProvider(
+      providers: [
+        // Global app configuration; can be expanded later (e.g. API base URL).
+        Provider<AppConfig>(
+          create: (_) => const AppConfig(appName: 'Around Me'),
+        ),
+      ],
+      child: MaterialApp(
+        // Use localized app title if available, otherwise fall back.
+        onGenerateTitle: (context) =>
+        AppLocalizations.of(context)?.appTitle ?? AppStrings.appTitleFallback,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+          useMaterial3: true,
+        ),
+        initialRoute: '/splash',
+        routes: {
+          '/splash': (_) => const SplashScreen(),
+          '/home': (_) => const HomeScreen(),
+          '/places': (context) {
+            final args = ModalRoute.of(context)!.settings.arguments as PlaceCategory;
+            return PlacesScreen(category: args);
+          },
         },
-        // '/places': (context) {
-        //   final args =
-        //       ModalRoute.of(context)!.settings.arguments as String? ?? '';
-        //   return PlacesScreen(categoryName: args);
-        // },
-      },
-      // Localization setup.
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en'),
-        Locale('de'),
-        Locale('ru'),
-        // add more: Locale('hy'), etc.
-      ],
+        // Localization setup.
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en'),
+          Locale('de'),
+          Locale('ru'),
+          // add more: Locale('hy'), etc.
+        ],
+      ),
     );
   }
 }
