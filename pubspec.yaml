@@ -19,6 +19,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  provider: ^6.0.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -31,3 +33,5 @@ flutter:
   uses-material-design: true
   generate: true
 
+  assets:
+    - assets/images/placeholder_car_rental.png
