@@ -33,3 +33,5 @@ flutter:
   uses-material-design: true
   generate: true
 
+  assets:
+    - assets/images/placeholder_car_rental.png

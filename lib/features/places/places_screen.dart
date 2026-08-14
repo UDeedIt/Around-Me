@@ -47,12 +47,100 @@ class PlacesScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final place = places[index];
 
-          return ListTile(
-            // Main text: place name (e.g. "Central Café").
-            title: Text(place.name),
-            // Secondary text: mock address/description.
-            subtitle: Text(place.address),
-            // Optional: you could use leading/trailing icons, etc.
+          // Wrap the entire item in padding for better touch target and spacing
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+            child: Row(
+              children: [
+                // Clipped image with rounded corners
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: place.imageUrl != null
+                      ? Image.network(
+                    place.imageUrl!,
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                    // Fallback widget if image fails to load
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      width: 80,
+                      height: 80,
+                      color: Colors.grey.shade200,
+                      child: const Icon(Icons.image_not_supported),
+                    ),
+                  )
+                      : Image.asset(
+                    'assets/images/placeholder_car_rental.png',
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+
+                const SizedBox(width: 12),
+
+                // Textual information column
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Place name
+                      Text(
+                        place.name,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 2),
+                      // Place description
+                      Text(
+                        place.description ?? '',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      const SizedBox(height: 4),
+                      // Place address (with subdued text color)
+                      Text(
+                        place.address,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      // Status and rating row
+                      Row(
+                        children: [
+                          // Open/Closed indicator icon
+                          Icon(
+                            (place.isOpenNow ?? false) ? Icons.check_circle : Icons.cancel,
+                            color:(place.isOpenNow ?? false) ? Colors.green : Colors.red,
+                            size: 16,
+                          ),
+                          const SizedBox(width: 6),
+                          // Open/Closed text
+                          Text(
+                            (place.isOpenNow ?? false) ? 'Open' : 'Closed',
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color:(place.isOpenNow ?? false) ? Colors.green : Colors.red,
+                            ),
+                          ),
+                          const Spacer(),
+                          // Rating stars and value
+                          Row(
+                            children: [
+                              const Icon(Icons.star, color: Colors.amber, size: 16),
+                              const SizedBox(width: 2),
+                              Text(
+                                (place.rating ?? 0.0).toStringAsFixed(1),
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),
